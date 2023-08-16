@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/components/task.dart';
+import 'package:my_app/data/tasks_inherited.dart';
+import 'package:my_app/pages/form_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,8 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool opacidade = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,42 +21,23 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: AnimatedOpacity(
-        opacity: opacidade ? 1 : 0,
-        duration: const Duration(microseconds: 1000),
-        child: ListView(
-          children: const [
-            Task(
-                "Aprendendo Flutter",
-                "assets/img/ler.jpg",
-                4),
-            Task(
-                'Praticar inglês',
-                'assets/img/aprender.png',
-                5),
-            Task(
-                'Meditar',
-                'assets/img/meditar.jpeg',
-                1),
-            Task(
-                'Andar de bicicleta',
-                'assets/img/bicicleta.jpg',
-                2),
-            Task('Jogar videogame',
-                'assets/img/jogar.jpg', 1),
-            SizedBox(
-              height: 80,
-            ),
-          ],
-        ),
+      body: ListView(
+        children: TasksInherited.of(context)!.taskList,
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
         onPressed: () {
-          setState(() {
-            opacidade = !opacidade;
-          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const FormPage(),
+            ),
+          );
         },
-        child: const Icon(Icons.remove_red_eye),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
