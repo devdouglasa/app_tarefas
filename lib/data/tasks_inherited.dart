@@ -7,10 +7,10 @@ class TasksInherited extends InheritedWidget {
   final Widget child;
 
   final List<Task> taskList = [
-    Task('Assistir StarWars', 'www.google.com', 2),
-    Task('Meditar', 'www.google.com', 3),
-    Task('Andar de Bicicleta', 'www.google.com', 3),
-    Task('Jogar Videogame', 'www.google.com', 2),
+    Task('Assistir StarWars', 'assets/img/aprender.png', 2),
+    Task('Meditar', 'assets/img/meditar.jpeg', 3),
+    Task('Andar de Bicicleta', 'assets/img/bicicleta.jpg', 3),
+    Task('Jogar Videogame', 'assets/img/jogar.jpg', 2),
   ];
 
   void newTask(String nameTask, String imagePath, int difficulty) {

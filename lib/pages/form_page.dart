@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/data/tasks_inherited.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({super.key});
@@ -133,6 +134,7 @@ class _FormPageState extends State<FormPage> {
                             content: Text('Adicionando nova Tarefa...'),
                           ),
                         );
+                        TasksInherited.of(context)?.newTask(nameController as String, imageController as String, difficultyController as int);
                         Navigator.pop(context);
                       }
                     },
