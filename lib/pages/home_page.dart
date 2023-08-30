@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: ListView(
+        padding: const EdgeInsets.only(top: 8, bottom: 70),
         children: TasksInherited.of(context)!.taskList,
       ),
       floatingActionButton: FloatingActionButton(
@@ -30,7 +31,9 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const FormPage(),
+              builder: (contextNew) => FormPage(
+                taskContext: context,
+              ),
             ),
           );
         },

@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/components/difficulty.dart';
 
+// ignore: must_be_immutable
 class Task extends StatefulWidget {
   final String nameTask;
-  final String caminhoImagem;
-  final int dificuldade;
-  const Task(this.nameTask, this.caminhoImagem, this.dificuldade, {super.key});
+  final String photo;
+  final int difficulty;
+
+  Task(this.nameTask, this.difficulty, this.photo, {super.key});
+
+  int nivel = 0;
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
+  bool assetOrNetwork() {
+    if (widget.photo.contains('http')) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +55,16 @@ class _TaskState extends State<Task> {
                       width: 80,
                       height: 100,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Image.asset(
-                          widget.caminhoImagem,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          borderRadius: BorderRadius.circular(4),
+                          child: assetOrNetwork()
+                              ? Image.asset(
+                                  widget.photo,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  widget.photo,
+                                  fit: BoxFit.cover,
+                                )),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -65,13 +78,19 @@ class _TaskState extends State<Task> {
                                 fontSize: 20, overflow: TextOverflow.ellipsis),
                           ),
                         ),
-                        Difficulty(difficultyLevel: widget.dificuldade),
+                        Difficulty(difficultyLevel: widget.difficulty),
                       ],
                     ),
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            elevation: 5,
+                            fixedSize: const Size(66, 60),
+                            shape: ContinuousRectangleBorder(
+                                borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
                           setState(() {
-                            nivel++;
+                            widget.nivel++;
                           });
                         },
                         child: const SizedBox(
@@ -81,10 +100,13 @@ class _TaskState extends State<Task> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Icon(Icons.arrow_drop_up),
+                              Icon(
+                                Icons.arrow_drop_up,
+                                color: Colors.white,
+                              ),
                               Text(
                                 "Up",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(color: Colors.white),
                               ),
                             ],
                           ),
@@ -105,14 +127,16 @@ class _TaskState extends State<Task> {
                     SizedBox(
                       width: 200,
                       child: LinearProgressIndicator(
-                        color: Colors.red,
-                        value: (widget.dificuldade > 0)
-                            ? (nivel / widget.dificuldade) / 10
+                        color: Colors.white,
+                        backgroundColor:
+                            const Color.fromARGB(255, 132, 197, 250),
+                        value: (widget.difficulty > 0)
+                            ? (widget.nivel / widget.difficulty) / 10
                             : 1,
                       ),
                     ),
                     Text(
-                      "Nível: $nivel",
+                      "Nível: ${widget.nivel}",
                       style: const TextStyle(color: Colors.white),
                     ),
                   ],
@@ -123,19 +147,5 @@ class _TaskState extends State<Task> {
         ],
       ),
     );
-  }
-}
-
-class DifficultyColors extends StatefulWidget {
-  const DifficultyColors({super.key});
-
-  @override
-  State<DifficultyColors> createState() => _DifficultyColorsState();
-}
-
-class _DifficultyColorsState extends State<DifficultyColors> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

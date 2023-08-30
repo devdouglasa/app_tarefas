@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:my_app/data/tasks_inherited.dart';
 
 class FormPage extends StatefulWidget {
-  const FormPage({super.key});
+  const FormPage({super.key, required this.taskContext});
+
+  final BuildContext taskContext;
 
   @override
   State<FormPage> createState() => _FormPageState();
@@ -15,6 +17,22 @@ class _FormPageState extends State<FormPage> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool valueValidator(String? value) {
+    if (value != null && value.isEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  bool difficultyValidator(String? value) {
+    if (value != null && value.isEmpty) {
+      if (int.parse(value) > 5 || int.parse(value) < 1) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -22,9 +40,12 @@ class _FormPageState extends State<FormPage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Text(
-            "Nova Tarefa",
-            style: TextStyle(color: Colors.white),
+          title: const Padding(
+            padding: EdgeInsets.only(left: 60),
+            child: Text(
+              "Nova Tarefa",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
         body: Center(
@@ -44,7 +65,7 @@ class _FormPageState extends State<FormPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (String? value) {
-                        if (value != null && value.isEmpty) {
+                        if (valueValidator(value)) {
                           return 'Insira o nome da Tarefa';
                         }
                         return null;
@@ -63,9 +84,7 @@ class _FormPageState extends State<FormPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value!.isEmpty ||
-                            int.parse(value) > 5 ||
-                            int.parse(value) < 1) {
+                        if (difficultyValidator(value)) {
                           return 'Insira uma dificuldade entre 1 e 5.';
                         }
                         return null;
@@ -85,7 +104,7 @@ class _FormPageState extends State<FormPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (valueValidator(value)) {
                           return 'Insira uma URL de imagem.';
                         }
                         return null;
@@ -126,15 +145,16 @@ class _FormPageState extends State<FormPage> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        print(nameController.text);
-                        print(int.parse(difficultyController.text));
-                        print(imageController.text);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Adicionando nova Tarefa...'),
                           ),
                         );
-                        TasksInherited.of(context)?.newTask(nameController as String, imageController as String, difficultyController as int);
+                        TasksInherited.of(widget.taskContext)?.newTask(
+                          nameController.text,
+                          int.parse(difficultyController.text),
+                          imageController.text,
+                        );
                         Navigator.pop(context);
                       }
                     },

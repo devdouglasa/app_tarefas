@@ -7,14 +7,14 @@ class TasksInherited extends InheritedWidget {
   final Widget child;
 
   final List<Task> taskList = [
-    Task('Assistir StarWars', 'assets/img/aprender.png', 2),
-    Task('Meditar', 'assets/img/meditar.jpeg', 3),
-    Task('Andar de Bicicleta', 'assets/img/bicicleta.jpg', 3),
-    Task('Jogar Videogame', 'assets/img/jogar.jpg', 2),
+    Task('Assistir StarWars', 1, 'assets/img/aprender.png'),
+    Task('Meditar', 4, 'assets/img/meditar.jpeg'),
+    Task('Andar de Bicicleta', 3, 'assets/img/bicicleta.jpg'),
+    Task('Jogar Videogame', 2, 'assets/img/jogar.jpg'),
   ];
 
-  void newTask(String nameTask, String imagePath, int difficulty) {
-    taskList.add(Task(nameTask, imagePath, difficulty));
+  void newTask(String nameTask, int difficulty, String image) {
+    taskList.add(Task(nameTask, difficulty, image));
   }
 
   static TasksInherited? of(BuildContext context) {
