@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/data/taskdao.dart';
 import 'package:my_app/data/tasks_inherited.dart';
 import 'package:my_app/pages/form_page.dart';
 
@@ -21,10 +22,7 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.only(top: 8, bottom: 70),
-        children: TasksInherited.of(context)!.taskList,
-      ),
+      body: Container(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: () {

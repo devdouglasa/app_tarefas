@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/components/task.dart';
+import 'package:my_app/data/taskdao.dart';
 import 'package:my_app/data/tasks_inherited.dart';
 
 class FormPage extends StatefulWidget {
@@ -150,11 +152,11 @@ class _FormPageState extends State<FormPage> {
                             content: Text('Adicionando nova Tarefa...'),
                           ),
                         );
-                        TasksInherited.of(widget.taskContext)?.newTask(
+                        TaskDao().save(Task(
                           nameController.text,
                           int.parse(difficultyController.text),
                           imageController.text,
-                        );
+                        ));
                         Navigator.pop(context);
                       }
                     },
